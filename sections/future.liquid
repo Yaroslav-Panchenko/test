@@ -1,0 +1,75 @@
+{% assign heading = product.metafields.accentuate.heading %}
+{% assign sub_heading = product.metafields.accentuate.subheading %}
+{% assign enable__content = product.metafields.accentuate.enable_content %}
+
+
+<section class="future" id={{ section.id }}>
+  <div class="future__container">
+    {%- if heading != blank -%}
+      <h2 class="future__title">{{ heading }}</h2>
+    {%- endif -%}
+
+    {%- if sub_heading != blank -%}
+      <div class="future__subtitle">{{ sub_heading }}</div>
+    {%- endif -%}
+
+    <div class="future__tabs">
+    {% for value in enable__content %}
+      {% if value == 'true' %}
+        {% assign content__heading = product.metafields.accentuate.heading_content[forloop.index0] %}
+        {% assign content__description = product.metafields.accentuate.description[forloop.index0] %}
+        {% assign content__image = product.metafields.accentuate.image[forloop.index0] %}
+
+{% comment %}
+
+{{ content__image[0].src | json }}
+{{ content__image[1].src | json }}
+{% endcomment %}
+
+        {% comment %}
+          {% for image in content__image %}
+            <img class="lazyload future__tabs-img"
+                    {%- render "image-metafield", image: image -%}
+            >
+          {% endfor %}
+        {% endcomment %}
+
+          <div class="future__tabs-item {% if forloop.first %} active {% endif %}">
+            <div class="future__tabs-header">
+              {% if content__heading != blank %}
+                <h4 class="future__tabs-heading">{{ content__heading }}</h4>
+
+                <svg class="future__tabs-icon" xmlns="http://www.w3.org/2000/svg" width="14" height="8" viewBox="0 0 14 8">
+                  <path fill="#ababab" fill-rule="evenodd"
+                        d="M12.836 8c-.122 0-.23-.046-.323-.137L7 2.46 1.487 7.863c-.094.091-.201.137-.323.137-.121 0-.229-.046-.322-.137L.14 7.175C.047 7.084 0 6.978 0 6.86s.047-.224.14-.316L6.677.137C6.771.046 6.878 0 7 0s.23.046.323.137l6.537 6.406c.093.092.14.197.14.316 0 .12-.047.225-.14.316l-.702.688c-.093.091-.2.137-.322.137z" />
+                </svg>
+              {% endif %}
+            </div>
+            <div class="future__tabs-content">
+
+              {% if content__image != blank %}
+
+                {% for image in content__image %}
+                  <img class="lazyload future__tabs-img"
+                          {%- render "image-metafield", image: image -%}
+                  >
+                {% endfor %}
+                {% comment %}
+                <img class="lazyload future__tabs-img"
+                        {%- render "image-metafield", image: content__image[0] -%}
+                >
+                {% endcomment %}
+              {% endif %}
+
+              {% if content__description != blank %}
+                <div class="future__tabs-description">{{ content__description }}</div>
+              {% endif %}
+
+            </div>
+          </div>
+      {% endif %}
+    {% endfor %}
+    </div>
+  </div>
+
+</section>
